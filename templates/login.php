@@ -12,7 +12,6 @@
         <div class="container" style="margin-top: 15px;">
             <div class="row col-xs-8">
                 <h1> Extreme Wordle - Get Started</h1>
-                <p> Welcome to our Extreme Wordle!  To get started, enter a username and email.</p>
             </div>
             <div class="row justify-content-center">
                 <div class="col-4">
@@ -30,12 +29,8 @@
                         <label for="name" class="form-label">Name</label>
                         <input type="text" class="form-control" id="name" name="name"/>
                     </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" name="password"/>
-                    </div>
                     <div class="text-center">                
-                    <button type="submit" class="btn btn-primary">Play Trivia</button>
+                    <button type="submit" class="btn btn-primary">Play Extreme Wordle</button>
                     </div>
                 </form>
                 </div>
