@@ -77,7 +77,8 @@ class TriviaController {
                 $message = "<div class='alert alert-success'><b>$answer</b> was correct!</div>";
 
                 // Update the score
-                $user["score"] += 10;  
+                $user["score"] += 10;
+                  
                 // Update the cookie: won't be available until next page load (stored on client)
                 setcookie("score", $_COOKIE["score"] + 10, time() + 3600);
             } else { 
