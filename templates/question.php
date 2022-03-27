@@ -14,6 +14,65 @@
                 <h1>CS4640 Extreme Wordle Game</h1>
                 <h3>Hello <?=$user["name"]?>! Guesses: <?=$user["score"]?> <?=$user["word"]?></h3>
             </div>
+
+
+            <table class="table" style="word-break: break-word">
+            <thead>
+            <tr>
+                <th scope="col" class="text-center">Guessed Word</th>
+                <th scope="col" class="text-center">Correct characters</th>
+                <th scope="col" class="text-center">Correct position</th>
+                <th scope="col" class="text-center">Guess length</th>
+                </tr>
+            </thead>
+        <?php
+
+            $guess = ($_POST["answer"]);
+            $correctWord = str_split($user["word"]);
+
+           
+           
+            if($guess){
+                $correctCharacters = 0;
+                $correctPostition = 0;
+                $index = 0;
+                $temp= str_split($guess);
+                $lengthAns = strlen($user["word"]);
+                $lenn = "correct";
+                $guessLen = strlen($guess);
+
+                foreach($temp as $c){
+                    if( in_array($c, $correctWord)){
+                        $correctCharacters += 1;
+                        
+                    }
+                }
+
+                for($a = 0; ($a < $guessLen && $a < $lengthAns); $a += 1){
+                    if($temp[$a] == $correctWord[$a]){
+                        $correctPostition += 1;
+                    }
+                }
+
+                if($guessLen > $lengthAns){
+                    $lenn = "too long";
+                }elseif($guessLen < $lengthAns){
+                    $lenn = "too short";
+                }
+            }
+
+
+            
+            if($guess){
+                    echo '<tr>';
+                    echo '<td>'. $guess .'</td>';
+                    echo '<td>'. $correctCharacters .'</td>';
+                    echo '<td>'. $correctPostition  .'</td>';
+                    echo '<td>'. $lenn  .'</td>';
+                    echo '</tr>';
+                }
+        ?>
+    </table>
             <div class="row">
                 <div class="col-xs-8 mx-auto">
                 <form action="?command=question" method="post">

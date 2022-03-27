@@ -14,6 +14,10 @@ class TriviaController {
                 break;
             case "logout":
                 $this->destroyCookies();
+                break;
+            case "end":
+                    $this->end();
+                    break;
             case "login":
             default:
                 $this->login();
@@ -21,12 +25,21 @@ class TriviaController {
         }
     }
 
+        // Clear all the cookies that we've set
+        private function end() {          
+            setcookie("correct", "", time() - 3600);
+            setcookie("name", "", time() - 3600);
+            setcookie("email", "", time() - 3600);
+            setcookie("score", "", time() - 3600);
+            include "templates/logout.php";
+        }
     // Clear all the cookies that we've set
     private function destroyCookies() {          
         setcookie("correct", "", time() - 3600);
         setcookie("name", "", time() - 3600);
         setcookie("email", "", time() - 3600);
         setcookie("score", "", time() - 3600);
+        include "templates/logout.php";
     }
     
     public function getNewWord(){
@@ -99,6 +112,7 @@ class TriviaController {
                 $user["score"] += 100;
                  // Update the cookie: won't be available until next page load (stored on client)
                  setcookie("score", 0, time() + 3600);
+                 header("Location: ?command=end");
                
             } else { 
                  // Update the score
