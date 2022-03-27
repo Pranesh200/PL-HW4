@@ -12,6 +12,7 @@
         <div class="container" style="margin-top: 15px;">
             <div class="row col-xs-8">
                 <h1> Extreme Wordle - Get Started</h1>
+                <p> Welcome to our Extreme Wordle!  To get started, enter a username and email.</p>
             </div>
             <div class="row justify-content-center">
                 <div class="col-4">

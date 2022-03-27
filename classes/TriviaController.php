@@ -52,44 +52,66 @@ class TriviaController {
         return $triviaData["results"][0];
     }
 
+    public function getNewWord(){
+        $response = file_get_contents("http://www.cs.virginia.edu/~jh2jf/courses/cs4640/spring2022/wordlist.txt");
+        $array = explode("\n", $response);
+        $word = $array[array_rand($array)];
+        // $word = $array[0];
+        setcookie("word", $word, time() + 3600);
+        return $word;
+    }
+
     // Display the question template (and handle question logic)
     public function question() {
         // set user information for the page from the cookie
         $user = [
             "name" => $_COOKIE["name"],
             "email" => $_COOKIE["email"],
-            "score" => $_COOKIE["score"]
-        ];
+            "score" => $_COOKIE["score"],
+            "word" => $_COOKIE["word"]
+         ];
 
+         $word = $this->getNewWord();
+         if ($word == null) {
+             die("No questions available");
+         }
+ 
         // load the question
         $question = $this->loadQuestion();
         if ($question == null) {
             die("No questions available");
         }
 
+
         // if the user submitted an answer, check it
         if (isset($_POST["answer"])) {
             $answer = $_POST["answer"];
             
-            if ($_COOKIE["answer"] == $answer) {
+           // $message = "<div class='alert alert-success'><b>$answer</b> was correct! You got it in $word guesses.</div>";
+            if (strcasecmp($_COOKIE["answer"],$word) == 0) {
                 // user answered correctly -- perhaps we should also be better about how we
                 // verify their answers, perhaps use strtolower() to compare lower case only.
-                $message = "<div class='alert alert-success'><b>$answer</b> was correct!</div>";
+                $message = "<div class='alert alert-success'><b>$answer</b> was correct! You got it in $score guesses.</div>";
 
-                // Update the score
-                $user["score"] += 10;
-                  
-                // Update the cookie: won't be available until next page load (stored on client)
-                setcookie("score", $_COOKIE["score"] + 10, time() + 3600);
+                // update the question information in cookies
+                setcookie("answer", $question["correct_answer"], time() + 3600);
+                $user["score"] += 100;
+                
+                 // Update the cookie: won't be available until next page load (stored on client)
+                 setcookie("score", 0, time() + 3600);
+               
             } else { 
+                 // Update the score
+                 $user["score"] += 1;
+                  
+                 // Update the cookie: won't be available until next page load (stored on client)
+                 setcookie("score", $_COOKIE["score"] + 1, time() + 3600);
                 $message = "<div class='alert alert-danger'><b>$answer</b> was incorrect! The answer was: {$_COOKIE["answer"]}</div>";
             }
             setcookie("correct", "", time() - 3600);
         }
 
-        // update the question information in cookies
-        setcookie("answer", $question["correct_answer"], time() + 3600);
-
+        
         include("templates/question.php");
     }
 }

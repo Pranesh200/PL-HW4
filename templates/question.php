@@ -12,17 +12,16 @@
         <div class="container" style="margin-top: 15px;">
             <div class="row col-xs-8">
                 <h1>CS4640 Extreme Wordle Game</h1>
-                <h3>Hello <?=$user["name"]?>! Score: <?=$user["score"]?></h3>
+                <h3>Hello <?=$user["name"]?>! Guesses: <?=$user["score"]?> <?=$user["word"]?></h3>
             </div>
             <div class="row">
                 <div class="col-xs-8 mx-auto">
                 <form action="?command=question" method="post">
                     <div class="h-100 p-5 bg-light border rounded-3">
-                    <h2>Question</h2>
-                    <p><?=$question["question"]?></p>
+                    <h2>Guess the word:</h2>
                     <input type="hidden" name="questionid" value="<?=$question["id"]?>"/>
                     </div>
-                    <?=$message?>
+                    <!-- <?=$message?> -->
                     <div class="h-10 p-5 mb-3">
                         <input type="text" class="form-control" id="answer" name="answer" placeholder="Type your answer here">
                     </div>
