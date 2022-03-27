@@ -29,10 +29,22 @@ class TriviaController {
         setcookie("score", "", time() - 3600);
     }
     
+    public function getNewWord(){
+        $response = file_get_contents("http://www.cs.virginia.edu/~jh2jf/courses/cs4640/spring2022/wordlist.txt");
+        $array = explode("\n", $response);
+        $word = $array[array_rand($array)];
+        // $word = $array[0];
+        setcookie("word", $word, time() + 3600);
+        return $word;
+    }
 
     // Display the login page (and handle login logic)
     public function login() {
-        if (isset($_POST["email"]) && !empty($_POST["email"])) { /// validate the email coming in
+        if (isset($_POST["email"]) && !empty($_POST["email"])) {
+            $word = $this->getNewWord();
+            if ($word == null) {
+                die("No questions available");
+            } /// validate the email coming in
             setcookie("name", $_POST["name"], time() + 3600);
             setcookie("email", $_POST["email"], time() + 3600);
             setcookie("score", 0, time() + 3600);
@@ -52,17 +64,11 @@ class TriviaController {
         return $triviaData["results"][0];
     }
 
-    public function getNewWord(){
-        $response = file_get_contents("http://www.cs.virginia.edu/~jh2jf/courses/cs4640/spring2022/wordlist.txt");
-        $array = explode("\n", $response);
-        $word = $array[array_rand($array)];
-        // $word = $array[0];
-        setcookie("word", $word, time() + 3600);
-        return $word;
-    }
+
+
 
     // Display the question template (and handle question logic)
-    public function question() {
+    public function question() {   
         // set user information for the page from the cookie
         $user = [
             "name" => $_COOKIE["name"],
@@ -71,11 +77,7 @@ class TriviaController {
             "word" => $_COOKIE["word"]
          ];
 
-         $word = $this->getNewWord();
-         if ($word == null) {
-             die("No questions available");
-         }
- 
+
         // load the question
         $question = $this->loadQuestion();
         if ($question == null) {
@@ -86,17 +88,15 @@ class TriviaController {
         // if the user submitted an answer, check it
         if (isset($_POST["answer"])) {
             $answer = $_POST["answer"];
-            
+            $word = $_COOKIE["word"];
            // $message = "<div class='alert alert-success'><b>$answer</b> was correct! You got it in $word guesses.</div>";
-            if (strcasecmp($_COOKIE["answer"],$word) == 0) {
+            if (strcasecmp($answer,$word) == 0) {
                 // user answered correctly -- perhaps we should also be better about how we
                 // verify their answers, perhaps use strtolower() to compare lower case only.
-                $message = "<div class='alert alert-success'><b>$answer</b> was correct! You got it in $score guesses.</div>";
-
+                // $message = "<div class='alert alert-success'><b>$answer</b> was correct! You got it in $score guesses.</div>";
                 // update the question information in cookies
-                setcookie("answer", $question["correct_answer"], time() + 3600);
+                setcookie("answer", $word, time() + 3600);
                 $user["score"] += 100;
-                
                  // Update the cookie: won't be available until next page load (stored on client)
                  setcookie("score", 0, time() + 3600);
                

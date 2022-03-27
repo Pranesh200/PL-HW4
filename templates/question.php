@@ -36,3 +36,13 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
     </body>
 </html>
+
+
+<!-- <table class="table" style="word-break: break-word">
+    <thead>
+        <tr><th scope="col" class="text-center">Guess</th>
+        <th scope="col" class="text-center">Correct characters</th>
+        <th scope="col" class="text-center">Characters in correct position</th>
+        <th scope="col" class="text-center">Guess length</th>
+    </tr></thead>
+    <tbody><tr><td>a</td><td class="text-center">1</td><td class="text-center">0</td><td class="text-center">too short</td></tr></tbody></table> -->
